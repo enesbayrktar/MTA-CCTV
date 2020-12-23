@@ -16,3 +16,9 @@ positions = {
   { 2234.0607910156, -1635.8319091797, 20.857799530029, 2234.1801757813, -1636.7800292969, 20.563255310059 }
 }
 ```
+
+# Usage
+`left_arrow` for prev camera
+
+
+`right_arrow` for next camera
