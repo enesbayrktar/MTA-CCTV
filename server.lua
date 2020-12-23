@@ -53,7 +53,7 @@ local function handleCCTV(playerSource, commandName, cctvNumber)
   cctvNumber = tonumber(cctvNumber) or 0
 
   if cctvNumber > cctvMax or type(cctvNumber) == 'string' then
-    return outputChatBox(string.format('KULLANIM: /%s <1 - %s>', commandName, cctvMax), playerSource, 255, 168, 0, false)
+    return outputChatBox(string.format('KULLANIM: /%s <1-%s>', commandName, cctvMax), playerSource, 255, 168, 0, false)
   end
   if getElementData(playerSource, loggedIn) and getElementData(playerSource, cctv) and not debugmode or debugmode then
     if cctvNumber > 0 then
