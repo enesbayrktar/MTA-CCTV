@@ -2,6 +2,7 @@ screenWidth, screenHeight = guiGetScreenSize()
 scale = screenHeight / 1080
 font = 'arial'
 isCCTV = false
+dump = {false, false}
 cctvPositions = {}
 currentCamX, currentCamY, currentCamZ, currentCamInt = 0, 0, 0, 0
 events = { 'cctv.positions.set', 'cctv.player.set' }
@@ -125,18 +126,22 @@ end
 -- **************************************************************************
 
 function setCCTV(cctvNumber)
-  local item = cctvPositions[cctvNumber]
+  if cctvNumber > 0 then
+    local item = cctvPositions[cctvNumber]
 
-  currentCamX, currentCamY, currentCamZ = item[1], item[2], item[3];
-  currentCamInt = cctvNumber;
+    currentCamX, currentCamY, currentCamZ = item[1], item[2], item[3];
+    currentCamInt = cctvNumber;
 
-  setCameraMatrix(item[1], item[2], item[3], item[4], item[5], item[6])
+    setCameraMatrix(item[1], item[2], item[3], item[4], item[5], item[6])
+  end
 end
 
 function openCCTV(cctvNumber)
   setCCTV(cctvNumber)
 
   if not isCCTV then
+    dump[1] = getElementDimension(localPlayer)
+    dump[2] = getElementInterior(localPlayer)
     setElementFrozen(localPlayer, true)
     addEventHandler('onClientRender', root, render)
     updateLocationTimer = setTimer(updateLocation, 200, 0)
@@ -146,6 +151,8 @@ function openCCTV(cctvNumber)
 end
 
 function closeCCTV(_)
+  setElementDimension(localPlayer, dump[1])
+  setElementInterior(localPlayer, dump[2])
   removeEventHandler('onClientRender', root, render)
   if isTimer(updateLocationTimer) then
     killTimer(updateLocationTimer)
@@ -159,6 +166,7 @@ function closeCCTV(_)
   setCameraTarget(localPlayer)
   bindKeys(false)
   isCCTV = false
+  dump = {false, false}
 end
 
 -- **************************************************************************
