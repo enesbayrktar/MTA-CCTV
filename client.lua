@@ -129,8 +129,11 @@ function setCCTV(cctvNumber)
 
   currentCamX, currentCamY, currentCamZ = item[1], item[2], item[3];
   currentCamInt = cctvNumber;
+  lastint = getElementInterior(localPlayer)
+  lastdim = getElementDimension(localPlayer)
 
   setCameraMatrix(item[1], item[2], item[3], item[4], item[5], item[6])
+  triggerServerEvent("Property",localPlayer, item[7], item[8])
 end
 
 function openCCTV(cctvNumber)
@@ -155,8 +158,8 @@ function closeCCTV(_)
 
   currentCamInt = 0;
   currentCamX, currentCamY, currentCamZ = 0, 0, 0;
-
   setCameraTarget(localPlayer)
+  triggerServerEvent("lastProperty",localPlayer, lastint, lastdim)
   bindKeys(false)
   isCCTV = false
 end
