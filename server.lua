@@ -1,6 +1,6 @@
 loggedIn = 'player.logged' -- loggedIn data
 cctv = 'player.can.cctv' -- cctv data, if player has that he can be use /cctv
-debugmode = true -- debugmode, if true then everyone access to /cctv command
+debugmode = false -- debugmode, if true then everyone access to /cctv command
 events = { 'cctv.positions.get', 'cctv.handle.cmd' }
 positions = {
   -- Positions taken from https://github.com/bekiroj/mtasa-resources/blob/main/mtasa-owl-cctv/main.lua
