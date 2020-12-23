@@ -61,8 +61,8 @@ function dxCreateFramedText(text, left, top, right, bottom, color, scaleT, font,
 	return self
 end
 
-textW, textH = scale * 350, scale * 20
-textX, textY = screenWidth - textW, 0
+textW, textH = screenWidth, scale * 20
+textX, textY = 0, 0
 
 dxElements = {
   dxCreateFramedText('', textX, textY, textW, textH, 0xFFFFFFFF, 1, 'default-bold', 'right', 'center', false, false, false, scale * 1),
