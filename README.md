@@ -18,6 +18,9 @@ positions = {
 ```
 
 # Usage
+command syntax `/cctv <1-7>`
+
+
 `left_arrow` for prev camera
 
 
