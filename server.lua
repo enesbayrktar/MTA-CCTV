@@ -1,6 +1,6 @@
 loggedIn = 'player.logged' -- loggedIn data
 cctv = 'player.can.cctv' -- cctv data, if player has that he can be use /cctv
-debugmode = false -- debugmode, if true then everyone access to /cctv command
+debugmode = true -- debugmode, if true then everyone access to /cctv command
 events = { 'cctv.positions.get', 'cctv.handle.cmd' }
 positions = {
   -- Positions taken from https://github.com/bekiroj/mtasa-resources/blob/main/mtasa-owl-cctv/main.lua
@@ -50,15 +50,20 @@ local function handleCCTV(playerSource, commandName, cctvNumber)
     return
   end -- serverside validation cause we dont trust client
   local cctvMax = #positions
-  cctvNumber = tonumber(cctvNumber or 0)
-  if cctvNumber > cctvMax then
+  cctvNumber = tonumber(cctvNumber) or 0
+
+  if cctvNumber > cctvMax or type(cctvNumber) == 'string' then
     return outputChatBox(string.format('KULLANIM: /%s <1 - %s>', commandName, cctvMax), playerSource, 255, 168, 0, false)
   end
   if getElementData(playerSource, loggedIn) and getElementData(playerSource, cctv) and not debugmode or debugmode then
     if cctvNumber > 0 then
       return cctvActions[false](playerSource, cctvNumber)
     end
-    return cctvActions[(getElementData(playerSource, 'cctv.state') or false)](playerSource, cctvNumber)
+    if cctvNumber == 0 then
+      if getElementData(playerSource, 'cctv.state') == true then
+        return cctvActions[true](playerSource, 0)
+      end
+    end
   end
 end
 
