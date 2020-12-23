@@ -38,11 +38,6 @@ function dxCreateFramedText(text, left, top, right, bottom, color, scaleT, font,
 
 	self.update = function()
 		dxSetRenderTarget(rt, true)
-    for oX = (outline * -1), outline do
-      for oY = (outline * -1), outline do
-        dxDrawText (text, oX, oY, right + oX, bottom + oY, tocolor(0, 0, 0, 255), scaleT, font, alignX, alignY, clip, wordBreak, postGUI, colorCoded, subPixelPositioning, fRotation, fRotationCenterX, fRotationCenterY)
-      end
-    end
     dxDrawText (text, 0, 0, right, bottom, color, scaleT, font, alignX, alignY, clip, wordBreak, postGUI, colorCoded, subPixelPositioning, fRotation, fRotationCenterX, fRotationCenterY)
 		dxSetRenderTarget()
 	end
@@ -50,7 +45,11 @@ function dxCreateFramedText(text, left, top, right, bottom, color, scaleT, font,
 	self.setText = function(v)
 		text = v
 		self.update()
-	end
+  end
+
+  self.getText = function()
+    return text
+  end
 
 	self.setColor = function(v)
 		color = v
@@ -62,22 +61,18 @@ function dxCreateFramedText(text, left, top, right, bottom, color, scaleT, font,
 	return self
 end
 
-textW, textH = scale * 350, scale * 25
-textX = screenWidth - textW - scale * 15
-
-textY = textH + scale * 15
-camY = textY + scale * 15
-locationY = textY + scale * 30
+textW, textH = scale * 350, scale * 20
+textX, textY = screenWidth - textW, 0
 
 dxElements = {
-  dxCreateFramedText('CCTV', textX, textY, textW, textH, 0xFFFFFFFF, 1, 'default-bold', 'right', 'center', false, false, false, scale * 2),
-  dxCreateFramedText('KAMERA:', textX, camY, textW, textH, 0xFFFFFFFF, 1, font, 'right', 'center', false, false, false, scale * 2),
-  dxCreateFramedText('LOKASYON:', textX, locationY, textW, textH, 0xFFFFFFFF, 1, font, 'right', 'center', false, false, false, scale * 2),
+  dxCreateFramedText('', textX, textY, textW, textH, 0xFFFFFFFF, 1, 'default-bold', 'right', 'center', false, false, false, scale * 1),
 }
 
 -- **************************************************************************
 
 function render()
+  width = dxGetTextWidth(dxElements[1].getText(), 1, 'default-bold')
+  dxDrawRectangle(screenWidth - width, textY, width, textH, 0xFF000000)
   for i, element in ipairs(dxElements) do
     element.draw()
   end
@@ -86,8 +81,7 @@ end
 updateLocationTimer = nil;
 
 function updateLocation()
-  dxElements[2].setText(string.format('KAMERA:  %s', currentCamInt))
-  dxElements[3].setText(string.format('LOKASYON:  %s', getZoneName(currentCamX, currentCamY, currentCamZ)))
+  dxElements[1].setText(string.format('CCTV   KAMERA:  %s   LOKASYON:  %s', currentCamInt, getZoneName(currentCamX, currentCamY, currentCamZ)))
 end
 
 -- **************************************************************************
